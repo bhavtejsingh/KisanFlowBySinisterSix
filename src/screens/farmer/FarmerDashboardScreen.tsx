@@ -1,10 +1,11 @@
 import { useApp } from '@/context/AppContext';
-import { Calendar, Users, Wallet, Search, BookOpen, Mic, HelpCircle, Clock, MapPin, TrendingUp, ChevronRight } from 'lucide-react';
+import { Calendar, Users, Wallet, Search, BookOpen, Mic, HelpCircle, Clock, MapPin, TrendingUp, ChevronRight, CloudSun } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import type { Booking, Mandi, Payment } from '@/lib/types';
 import { ScreenContainer, LoadingSpinner, EmptyState } from '@/components/ui';
 import { Header, BottomNav, FloatingMic } from '@/components/common';
+import { WeatherWidget } from '@/components/WeatherWidget';
 
 export function FarmerDashboardScreen() {
   const { farmer, navigate, t } = useApp();
@@ -55,6 +56,7 @@ export function FarmerDashboardScreen() {
     { icon: BookOpen, label: t('myBookings'), screen: 'myBookings' as const, color: 'bg-kisan-orange-100 text-kisan-orange-600' },
     { icon: Mic, label: t('voiceAssistant'), screen: 'voiceAssistant' as const, color: 'bg-purple-100 text-purple-600' },
     { icon: Wallet, label: t('payments'), screen: 'paymentTracking' as const, color: 'bg-emerald-100 text-emerald-600' },
+    { icon: CloudSun, label: 'Weather', screen: 'weatherAdvisory' as const, color: 'bg-blue-100 text-blue-600' },
     { icon: HelpCircle, label: t('helpCenter'), screen: 'helpCenter' as const, color: 'bg-slate-100 text-slate-600' },
   ];
 
@@ -71,6 +73,12 @@ export function FarmerDashboardScreen() {
             <h2 className="text-lg font-bold text-slate-900">{farmer.name}</h2>
           </div>
         </div>
+
+        <WeatherWidget
+          location={farmer.district ? `${farmer.district}, Punjab` : 'Punjab'}
+          onClick={() => navigate('weatherAdvisory')}
+          showLocationPicker
+        />
 
         {loading ? (
           <LoadingSpinner />

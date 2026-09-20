@@ -1,15 +1,21 @@
 import { useApp } from '@/context/AppContext';
-import { Users, Activity, Package, Building, ChevronRight, ListChecks, QrCode, BarChart3, Wallet } from 'lucide-react';
+import { Users, Activity, Package, Building, ChevronRight, ListChecks, QrCode, BarChart3, Wallet, Droplet, AlertTriangle, Zap, CloudRain } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { ScreenContainer, LoadingSpinner, StatCard } from '@/components/ui';
 import { Header } from '@/components/common';
+import { WeatherWidget } from '@/components/WeatherWidget';
+import { fetchCurrentWeather, fetchForecast, type CurrentWeather, type ForecastDay } from '@/lib/weather';
 
 export function OfficerDashboardScreen() {
   const { officer, navigate, t } = useApp();
   const [stats, setStats] = useState({ farmers: 0, queue: 0, procurement: 0, capacity: 0 });
   const [loading, setLoading] = useState(true);
   const [recentBookings, setRecentBookings] = useState<any[]>([]);
+  const [weather, setWeather] = useState<CurrentWeather | null>(null);
+  const [forecast, setForecast] = useState<ForecastDay[]>([]);
+
+  const officerLocation = officer?.centre_name ? `${officer.centre_name}, Punjab` : 'Punjab';
 
   useEffect(() => {
     (async () => {
@@ -37,6 +43,14 @@ export function OfficerDashboardScreen() {
         capacity: mandi ? Math.round(((mandi.capacity_per_day - mandi.available_slots) / mandi.capacity_per_day) * 100) : 0,
       });
       setRecentBookings(bookings || []);
+
+      const [w, f] = await Promise.all([
+        fetchCurrentWeather(officerLocation),
+        fetchForecast(officerLocation, 2),
+      ]);
+      setWeather(w);
+      setForecast(f);
+
       setLoading(false);
     })();
   }, []);
@@ -49,6 +63,11 @@ export function OfficerDashboardScreen() {
     { icon: Wallet, label: t('paymentProcessingTitle'), screen: 'paymentProcessing' as const, color: 'text-blue-600 bg-blue-50' },
     { icon: BarChart3, label: t('analytics'), screen: 'analytics' as const, color: 'text-purple-600 bg-purple-50' },
   ];
+
+  const tomorrowRain = forecast[1]?.rainProb || 0;
+  const riskLevel = tomorrowRain > 70 ? 'High' : tomorrowRain > 40 ? 'Medium' : 'Low';
+  const riskColor = tomorrowRain > 70 ? 'bg-red-400/30' : tomorrowRain > 40 ? 'bg-kisan-orange-400/30' : 'bg-green-400/30';
+  const impactPct = tomorrowRain > 70 ? -15 : tomorrowRain > 40 ? -8 : 0;
 
   return (
     <ScreenContainer>
@@ -65,6 +84,8 @@ export function OfficerDashboardScreen() {
           </div>
         </div>
 
+        <WeatherWidget location={officerLocation} showLocationPicker />
+
         {loading ? (
           <LoadingSpinner />
         ) : (
@@ -75,6 +96,62 @@ export function OfficerDashboardScreen() {
               <StatCard icon={Package} label={t('procurementVolume')} value={`${stats.procurement} qtl`} color="blue" />
               <StatCard icon={Building} label={t('centreCapacity')} value={`${stats.capacity}%`} color="green" />
             </div>
+
+            {/* Weather Impact on Procurement */}
+            {weather && (
+              <div className="card">
+                <h3 className="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                  <AlertTriangle className="w-5 h-5 text-kisan-orange-600" />
+                  Weather Impact Analysis
+                </h3>
+                <div className="grid grid-cols-3 gap-3 mb-3">
+                  <div className="text-center rounded-xl bg-blue-50 py-3">
+                    <CloudRain className="w-5 h-5 mx-auto mb-1 text-blue-600" />
+                    <p className="text-xs text-slate-400">Rain Prob</p>
+                    <p className="font-bold text-slate-900">{tomorrowRain}%</p>
+                  </div>
+                  <div className="text-center rounded-xl bg-kisan-orange-50 py-3">
+                    <AlertTriangle className="w-5 h-5 mx-auto mb-1 text-kisan-orange-600" />
+                    <p className="text-xs text-slate-400">Risk Level</p>
+                    <p className="font-bold text-slate-900">{riskLevel}</p>
+                  </div>
+                  <div className={`text-center rounded-xl py-3 ${riskColor}`}>
+                    <Zap className="w-5 h-5 mx-auto mb-1 text-white" />
+                    <p className="text-xs text-white/80">Capacity Impact</p>
+                    <p className="font-bold text-white">{impactPct > 0 ? '+' : ''}{impactPct}%</p>
+                  </div>
+                </div>
+                <div className="rounded-xl bg-slate-50 p-3">
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    {tomorrowRain > 70
+                      ? `Rain probability of ${tomorrowRain}% expected tomorrow. Farmers may delay arrivals. Centre capacity can be reduced by ${Math.abs(impactPct)}%.`
+                      : tomorrowRain > 40
+                      ? `Moderate rain (${tomorrowRain}%) expected. Some farmers may delay. Plan for ${Math.abs(impactPct)}% lower turnout.`
+                      : `Weather conditions are favorable. Expected normal farmer arrivals and full capacity utilization.`}
+                  </p>
+                </div>
+                <div className="grid grid-cols-2 gap-3 mt-3">
+                  <div className="flex items-center gap-2">
+                    <Droplet className="w-4 h-4 text-blue-500" />
+                    <div>
+                      <p className="text-xs text-slate-400">Moisture Risk</p>
+                      <p className="font-semibold text-slate-700 text-sm">
+                        {weather.humidity > 75 ? 'High' : weather.humidity > 55 ? 'Medium' : 'Low'}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Users className="w-4 h-4 text-kisan-green-500" />
+                    <div>
+                      <p className="text-xs text-slate-400">Expected Arrivals</p>
+                      <p className="font-semibold text-slate-700 text-sm">
+                        {tomorrowRain > 70 ? 'Reduced' : tomorrowRain > 40 ? 'Slightly Lower' : 'Normal'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
 
             <div>
               <h3 className="section-title mb-3">Quick Actions</h3>

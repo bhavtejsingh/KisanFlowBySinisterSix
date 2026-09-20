@@ -20,6 +20,7 @@ import { ProcurementApprovalScreen } from '@/screens/officer/ProcurementApproval
 import { PaymentProcessingScreen } from '@/screens/officer/PaymentProcessingScreen';
 import { AnalyticsScreen } from '@/screens/officer/AnalyticsScreen';
 import { HelpCenterScreen } from '@/screens/farmer/HelpCenterScreen';
+import { WeatherAdvisoryScreen } from '@/screens/farmer/WeatherAdvisoryScreen';
 
 function ScreenRouter() {
   const { currentScreen } = useApp();
@@ -67,6 +68,8 @@ function ScreenRouter() {
       return <AnalyticsScreen />;
     case 'helpCenter':
       return <HelpCenterScreen />;
+    case 'weatherAdvisory':
+      return <WeatherAdvisoryScreen />;
     default:
       return <LanguageScreen />;
   }

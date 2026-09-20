@@ -23,7 +23,8 @@ export type ScreenName =
   | 'procurementApproval'
   | 'paymentProcessing'
   | 'analytics'
-  | 'helpCenter';
+  | 'helpCenter'
+  | 'weatherAdvisory';
 
 interface AppState {
   language: Language;
