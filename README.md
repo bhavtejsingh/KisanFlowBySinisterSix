@@ -423,43 +423,56 @@ Displays:
 
 ## Language Selection
 
-**Saksham add screenshot here**
+<img width="2208" height="1056" alt="image" src="https://github.com/user-attachments/assets/cd10db9b-d08e-45f1-9c13-0a584b640ab9" />
+
 
 ## Farmer Dashboard
 
-**Saksham add screenshot here**
+<img width="1600" height="760" alt="FarmerDashboard" src="https://github.com/user-attachments/assets/335a92a5-dad7-4b39-830b-df4e89a52de8" />
+
 
 ## Farmer Verification
 
-**Saksham add screenshot here**
+<img width="2096" height="992" alt="image" src="https://github.com/user-attachments/assets/edac3814-2bf2-4c02-95af-e7b040f85e81" />
+
 
 ## Mandi Selection
 
-**Saksham add screenshot here**
+<img width="2352" height="1088" alt="image" src="https://github.com/user-attachments/assets/d9d8b439-3d69-4bc1-82fa-430196b03094" />
+
 
 ## Weather Advisory
 
-**Saksham add screenshot here**
+<img width="2352" height="1088" alt="image" src="https://github.com/user-attachments/assets/9526b74c-7921-4501-bfab-e1e7db24774c" />
+
 
 ## Slot Booking
 
-**Saksham add screenshot here**
+<img width="2352" height="1088" alt="image" src="https://github.com/user-attachments/assets/57ebbae4-0c95-4b33-a8df-f69c671d3a32" />
+
+<img width="2096" height="992" alt="image" src="https://github.com/user-attachments/assets/6cf73f54-2379-47eb-be7a-054d9613ca24" />
+
+
 
 ## QR Token Generation
 
-**Saksham add screenshot here**
+<img width="2096" height="992" alt="image" src="https://github.com/user-attachments/assets/78ff2721-8f95-454a-8c92-1817a75bcfdd" />
+
 
 ## Queue Tracking
 
-**Saksham add screenshot here**
+<img width="2096" height="992" alt="image" src="https://github.com/user-attachments/assets/02d9985c-2f98-452d-824a-eebdc5890aa6" />
+
 
 ## Payment Tracking
 
-**Saksham add screenshot here**
+<img width="2352" height="1088" alt="image" src="https://github.com/user-attachments/assets/ebdf88a8-3c95-4d35-a998-1ad3eeefc5d0" />
+
 
 ## Officer Dashboard
 
-**Saksham add screenshot here**
+<img width="1600" height="769" alt="OfficerDashboard" src="https://github.com/user-attachments/assets/bda7dc32-4d0f-4d7e-bf90-cd51031f71c0" />
+
 
 ## QR Verification
 
