@@ -476,15 +476,18 @@ Displays:
 
 ## QR Verification
 
-**Saksham add screenshot here**
+<img width="2096" height="992" alt="image" src="https://github.com/user-attachments/assets/0f78ac6b-242b-434f-af83-bd84bf665902" />
+
 
 ## Procurement Entry
 
-**Saksham add screenshot here**
+<img width="2352" height="1088" alt="image" src="https://github.com/user-attachments/assets/4efc0cd3-548f-4019-8a4a-546cd95220bc" />
+
 
 ## Analytics Dashboard
 
-**Saksham add screenshot here**
+<img width="2352" height="1088" alt="image" src="https://github.com/user-attachments/assets/7a995721-5b8c-40d5-a6de-ba248f9701ed" />
+
 
 # ⚠️ Prototype Limitations
 
